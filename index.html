@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>上财保障菜配餐助手</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23b8502f'/%3E%3Ccircle cx='32' cy='32' r='18' fill='%23fff1de'/%3E%3Cpath d='M18 29h28v6H18z' fill='%23586b3c'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="hero" aria-label="上财食堂现场">
+      <img src="assets/sufe-scene-buffet.jpg" alt="上海财经大学食堂保障菜现场">
+      <div class="hero-copy">
+        <p>Shanghai University of Finance and Economics</p>
+        <h1>上财保障菜配餐助手</h1>
+        <span>以公开保障菜价格为底表，结合预算、口味和目标生成一餐推荐，并保留本地偏好、收藏和反馈。</span>
+      </div>
+    </section>
+
+    <section class="planner" aria-label="配餐设置">
+      <form id="mealForm" class="preference-panel">
+        <div class="section-head">
+          <p>今日取餐</p>
+          <h2>先定预算和目标</h2>
+          <span>真实菜价来自上财公开页面，营养与评分使用本地规则估算。</span>
+        </div>
+
+        <div class="goal-grid" role="radiogroup" aria-label="饮食目标">
+          <label><input type="radio" name="goal" value="fat_loss" checked><span>轻盈控卡</span></label>
+          <label><input type="radio" name="goal" value="muscle"><span>高蛋白</span></label>
+          <label><input type="radio" name="goal" value="budget"><span>省钱吃饭</span></label>
+          <label><input type="radio" name="goal" value="balanced"><span>均衡能量</span></label>
+        </div>
+
+        <label class="range-field">
+          <span>预算 <strong id="budgetValue">10 元</strong></span>
+          <input id="budget" type="range" min="4" max="16" value="10" step="0.5">
+        </label>
+
+        <div class="form-row">
+          <label class="select-field">
+            <span>口味</span>
+            <select id="taste">
+              <option value="balanced">均衡</option>
+              <option value="light">清淡</option>
+              <option value="warm">热食</option>
+            </select>
+          </label>
+          <label class="check-field">
+            <input id="avoidSpicy" type="checkbox">
+            <span>不吃辣</span>
+          </label>
+        </div>
+
+        <button type="submit">生成今日套餐</button>
+        <p class="source-note">菜名和价格参考《学生食堂保障菜价格信息（2023-2024学年）》公开页。</p>
+      </form>
+
+      <section class="recommendation" aria-live="polite">
+        <div class="section-head inline">
+          <div>
+            <p>推荐结果</p>
+            <h2 id="planTitle">等待生成</h2>
+          </div>
+          <strong id="scoreBadge">--</strong>
+        </div>
+        <div id="mealCards" class="meal-cards"></div>
+        <div id="mealSummary" class="meal-summary"></div>
+        <div class="action-row">
+          <button id="savePlan" type="button">收藏套餐</button>
+          <button id="likePlan" type="button" class="secondary">喜欢</button>
+          <button id="dislikePlan" type="button" class="ghost">不喜欢</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="scene-section" aria-label="真实现场">
+      <div class="section-head">
+        <p>真实现场</p>
+        <h2>上财食堂公开照片</h2>
+        <span>使用学校公开报道中的食堂与试吃活动实拍，强调项目来源真实、场景真实。</span>
+      </div>
+      <div id="sceneGallery" class="scene-grid"></div>
+    </section>
+
+    <section class="gallery-section" aria-label="精选菜品">
+      <div class="section-head">
+        <p>精选菜品</p>
+        <h2>高频搭配参考</h2>
+        <span>从完整菜单中挑出更适合作为课堂演示的代表菜品。</span>
+      </div>
+      <div id="dishGallery" class="dish-gallery"></div>
+    </section>
+
+    <section class="menu-section" aria-label="完整价目表">
+      <div class="section-head">
+        <p>完整菜单</p>
+        <h2>公开保障菜价目表</h2>
+        <span>共展示快餐保障菜与点心保障型公开条目，适合直接作为课程作品中的数据来源页。</span>
+      </div>
+      <div id="menuBoard" class="menu-board"></div>
+    </section>
+
+    <section class="system-section" aria-label="项目数据">
+      <div class="workflow-panel">
+        <div class="section-head">
+          <p>处理流程</p>
+          <h2>从公开菜价到套餐推荐</h2>
+        </div>
+        <ol>
+          <li><span>01</span>读取上财公开保障菜与点心价格</li>
+          <li><span>02</span>按预算、口味和忌口过滤菜品</li>
+          <li><span>03</span>使用本地规则估算营养与得分</li>
+          <li><span>04</span>保存套餐、反馈与收藏记录</li>
+        </ol>
+      </div>
+
+      <div class="data-panel">
+        <div class="section-head">
+          <p>数据状态</p>
+          <h2>本地记录与来源</h2>
+        </div>
+        <div id="dataState" class="data-grid"></div>
+        <a class="source-link" href="https://gongkai.sufe.edu.cn/a6/f3/c13786a42739/page.htm" target="_blank" rel="noreferrer">查看上财公开菜价来源</a>
+      </div>
+
+      <div class="history-panel">
+        <div class="section-head">
+          <p>最近保存</p>
+          <h2>展示记录</h2>
+        </div>
+        <div id="historyList" class="history-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="src/mealCore.js"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+.playwright-cli/
+node_modules/
+output/
+tmp/
+npm-debug.log*
+.DS_Store
+Thumbs.db
