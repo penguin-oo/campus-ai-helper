@@ -52,6 +52,12 @@ node server.cjs 8767 0.0.0.0
 
 本项目是纯静态页面，不需要服务端数据库。可部署到 GitHub Pages、Vercel、Netlify，也可用 `cloudflared tunnel --url http://127.0.0.1:8766` 生成临时公网链接。
 
+当前 GitHub Pages 演示地址：
+
+```text
+https://penguin-oo.github.io/campus-ai-helper/
+```
+
 访问者的收藏、反馈和历史记录保存在访问者自己浏览器的 `localStorage` 中，不会写入服务器。
 
 ## 测试
